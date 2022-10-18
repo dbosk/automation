@@ -6,11 +6,13 @@ LATEXFLAGS+=	-shell-escape
 SRC+=		preamble.tex
 SRC+=		abstract.tex contents.tex
 
+DEPENDS+=	./degree-projects-20221004.pdf
+
 notes.pdf: notes.tex
-notes.pdf: ${SRC}
+notes.pdf: ${SRC} ${DEPENDS}
 
 slides.pdf: slides.tex
-slides.pdf: ${SRC}
+slides.pdf: ${SRC} ${DEPENDS}
 #slides.pdf: ltxobj/slides-incomplete.pdf
 
 ltxobj/slides-incomplete.pdf: ${SRC} ${DEPENDS}
