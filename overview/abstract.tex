@@ -5,29 +5,26 @@
 % What's the findings? How was it evaluated, what are the results, limitations, 
 % what remains to be done?
 
-\begin{frame}[fragile]
-  \begin{block}{The problem}
-    \begin{description}
-      \item<+>[What's the problem?] Simple tasks that take up our time.
-      \item<+>[Why is it a problem?] We waste time that can be used better.
-      \item<+>[What's the approach?] Let a computer do these things instead.
-      \item<+>[What are the findings?] This works very well.
-    \end{description}
-  \end{block}
-\end{frame}
+We have many simple tasks that take up our time.
+In many (most or all?) cases that is a waste of our time, since these tasks 
+could be performed autonomously by computers.
+Here we cover some aspects of such tasks and how we successfully automate them.
+We cover some aspects of the following topics:
+\begin{itemize}
+  \item automated grading,
+  \item automatically report results to LADOK,
+  \item finding results of late students, and
+  \item managing TAs.
+\end{itemize}
 
-We cover some aspects.
+\endinput
 
-\begin{frame}[fragile]\label<2>{WishGradingReporting}
-  \begin{example}[Grading]
-    \begin{itemize}
-      \item Grade/comment assignments when there are several teachers
-      \item \alert<2>{Reporting to Canvas when connected to automated grading 
-        (\eg gits-15, kattis, mail, zoom participation \etc)}
-      \item Grading rubrics (betygsmatriser)
-      \item \alert<2>{Grading/commenting assignments}
-    \end{itemize}
-  \end{example}
+In terms of grading we cover the following aspects:
+\begin{itemize}
+  \item \alert<2>{Reporting to Canvas when connected to automated grading (\eg 
+    gits-15, Kattis, mail, zoom participation \etc)}
+  \item \alert<2>{Grading/commenting assignments}
+\end{itemize}
 
   \begin{example}[Reporting]
     \begin{itemize}
@@ -37,7 +34,6 @@ We cover some aspects.
       \item \alert<2>{Automated grading + reporting}
     \end{itemize}
   \end{example}
-\end{frame}
 
 \begin{frame}[fragile]\label<2>{WishLateStudents}
   \begin{example}[Late students]
