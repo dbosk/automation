@@ -1,0 +1,784 @@
+\mode*
+
+\section{The problem}
+
+\begin{frame}[fragile]
+  \begin{block}{The problem}
+    \begin{description}
+      \item<+>[What's the problem?] Simple tasks that take up our time.
+      \item<+>[Why is it a problem?] We waste time that can be used better.
+      \item<+>[What's the approach?] Let a computer do these things instead.
+      \item<+>[What are the findings?] This works very well.
+    \end{description}
+  \end{block}
+\end{frame}
+
+\subsection{Various simple tasks that take time}
+
+Det vore önskvärt att få ta del av kollegors lösningar på:
+
+\begin{frame}[fragile]\label{WishGradingReporting}
+  \begin{example}[Grading]
+    \begin{itemize}
+      \item {Reporting to LMS when connected to automated grading (\eg gits-15, 
+        Kattis, mail, zoom participation \etc)}
+      \item {Grading/commenting assignments}
+    \end{itemize}
+  \end{example}
+
+  \begin{example}[Reporting]
+    \begin{itemize}
+      \item {Bulk reporting}
+      \item {Formulas for grading}
+      \item {Canvas to LADOK with correct dates}
+      \item {Automated grading + reporting}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]\label{WishLateStudents}
+  \begin{example}[Late students]
+    \begin{itemize}
+      \item {Discover finished course or components}
+      \item {Grade students from different course rounds}\footnote{%
+          More difficult with locked Canvas rooms.
+        }:
+        \begin{description}
+          \item[Scenario 1] {Get email from student who claims they've 
+            finished but can't see any result in LADOK.}
+
+          \item[Scenario 2] The student took the exam during another round than 
+            what they originally registered for.
+        \end{description}
+
+      \item {It's more work to track students from previous rounds, 
+        what they've finished, bonus points etc.}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+%\begin{frame}[fragile]
+%  \begin{example}[Managing students]
+%    \begin{itemize}
+%      \item Time booking
+%      \item Group formation
+%      \item Manage course related emails or Canvas messages
+%      \item Manage discussion threads
+%    \end{itemize}
+%  \end{example}
+%
+%  \pause
+%
+%  \begin{remark}
+%    \begin{itemize}
+%      \item Won't cover any of these topics.
+%      \item But if you want to talk about it, contact us.
+%    \end{itemize}
+%  \end{remark}
+%\end{frame}
+
+\begin{frame}[fragile]\label{WishTA}
+  \begin{example}[Managing TAs]
+    \begin{itemize}
+      \item {Time booking}
+
+      \item {Find potential TAs, the TA pool}
+        \begin{itemize}
+          \item {the TA pool doesn't contain details of which course 
+            an individual is suitable to work on.}
+        \end{itemize}
+
+      \item {Remove students who graduated from the TA pool.}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+
+\section[Grading]{Grading: \texttt{canvaslms}}
+
+\begin{frame}[fragile]
+  \begin{example}[Grading]
+    \begin{itemize}
+      \item {Reporting to Canvas when connected to automated grading (\eg 
+        gits-15, Kattis, mail, zoom participation \etc)}
+      \item {Grading/commenting assignments}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Late students]
+    \begin{itemize}
+      \item {Discover finished course or components}
+      \item {Grade students from different course rounds}\footnote{%
+          More difficult with locked Canvas rooms.
+        }:
+        \begin{description}
+          \item[Scenario 1] {Get email from student who claims they've 
+            finished but can't see any result in LADOK.}
+
+          \item[Scenario 2] The student took the exam during another round than 
+            what they originally registered for.
+        \end{description}
+
+      \item {It's more work to track students from previous rounds, 
+        what they've finished, bonus points etc.}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{DD1301 Computer Introduction, 1.5 credits}
+
+\begin{frame}[fragile]
+  \begin{block}{Learning Outcomes}
+    \begin{itemize}
+      \item<1> obtain access to the computational environment at KTH
+      \item<2> control the computer environment via the command line
+      \item<3> handle submissions of program code with version control tools
+      \item<4> create and compile technical reports
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Assignments}
+    \begin{itemize}
+      \item<1> SSH: \mintinline{bash}{ssh student-shell.sys.kth.se}
+      \item<2> Terminal: \mintinline{bash}{history > ~/Public/datintro/history.txt}
+      \item<3> Git: Make any update to a given repo.
+      \item<4> LaTeX: Write a LaTeX document with title, sections, references, 
+        etc.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[Grading]
+    \begin{itemize}
+      \item Run grading scripts on a Raspberry Pi.
+      \item Uses
+        \begin{itemize}
+          \item RepoBee
+          \item canvaslms
+        \end{itemize}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{RepoBee}
+    \begin{itemize}
+      \item Simon Larsen and Ric Glassey @ EECS TCS
+      \item Works with GitHub (gits-15).
+      \item \url{https://repobee.org}
+      \item \url{https://github.com/repobee/repobee}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}[Cloning all students' repos]
+    \begin{minted}{bash}
+repobee repos clone -qq \
+    --sf $students -o $org --discover-repos
+    \end{minted}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{\texttt{canvaslms}}
+    \begin{itemize}
+      \item Daniel Bosk @ EECS TCS
+      \item Command-line interface for Canvas
+      \item \url{https://github.com/dbosk/canvaslms}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}[\texttt{canvaslms} uses]
+    \begin{itemize}
+      \item \mintinline{bash}{canvaslms users -sc datintro22}
+      \item \mintinline{bash}{canvaslms submissions -c datintro22 -a LaTeX}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  % workaround from 
+  % https://github.com/gpoore/minted/issues/70#issuecomment-111729930
+  \begingroup
+  \catcode §=\active
+  \def§#1§{\only<1-2>{\alert<2>{#1}}\only<3>{}}
+  \begin{minted}[fontsize=\Large,escapeinside=||]{bash}
+    canvaslms grade -c datintro|§22§| -a "terminal" \
+      -u student@kth.se -g P -m "Well done!"
+  \end{minted}
+  \endgroup
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[Setting up DD1301]
+    \begin{minted}{bash}
+      docker run \
+        -e KRB_USER -e KRB_PASS \
+        -e CANVAS_SERVER -e CANVAS_TOKEN \
+        -e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+        -e COURSE_CODE -e COURSE_CODE_ORG \
+          datintro22-setup:latest
+    \end{minted}
+  \end{example}
+
+  \pause
+
+  \begin{remark}[Tools]
+    \begin{itemize}
+      \item \mintinline{bash}{canvaslms users -s}
+      \item \mintinline{bash}{repobee repos setup}
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[Keeping students up-to-date on grading]
+    \begin{minted}{bash}
+      # https://people.kth.se/~dbosk/datintro/grader.log
+      LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.log"
+      mkdir -p $(dirname $LOG_FILE)
+      echo -n "Started grading $(date) " >> $LOG_FILE
+
+      # do grading
+
+      echo "-> Finished $(date)" >> $LOG_FILE
+    \end{minted}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{minted}{bash}
+out="$(docker run \
+  -e KRB_USER -e KRB_PASS \
+  -e CANVAS_SERVER -e CANVAS_TOKEN \
+  -e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -e COURSE_CODE -e COURSE_CODE_ORG \
+  -v /afs:/afs \
+    datintro22-grade:latest)"
+if [ -n "$out" ]; then
+  echo "$out"
+  echo
+  echo "LADOK:"
+  canvaslms results -c "$courses" -A "$components" | \
+    sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
+    ladok report -fv
+fi
+
+\end{minted}
+\end{frame}
+
+
+\subsection{Programmering och Kattis}
+
+\begin{frame}[fragile]
+  \begin{center}
+    \includegraphics[width=\textwidth]{figs/kattis-tilda22.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Kattis}
+    \begin{itemize}
+      \item Developed in-house at KTH ages ago.
+      \item Moved out to own company.
+      \item URL: \url{https://kattis.com}
+      \item Open problems: \url{https://open.kattis.com/}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{center}
+    \includegraphics[height=0.9\textheight]{figs/kattis-hello.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{center}
+    \includegraphics[height=0.9\textheight]{figs/kattis-binary.png}
+  \end{center}
+\end{frame}
+
+
+\section[Grade reporting]{Grade reporting: \texttt{canvaslms results | ladok}}
+
+- I talk about automation of normal courses, reporting labs. This covers  
+points:
+
+    1 bulkrapportering,
+    2 upptäcka avslutad kurs eller komponenter,
+    3 Canvas till Ladok med rätt datum,
+    4 formler för betygsättning,
+    9 hantering av csv export (automatiserad)
+    12 rubriker (rättningsmatriser?)
+    13 inrapportering i Canvas kopplad till automatisk betygsättning
+    14 automatiserad betygssättning/resultatrapportering
+    17 betygsätta studenter från olika kursutbud
+
+\begin{frame}[fragile]
+  \begin{example}[Reporting]
+    \begin{itemize}
+      \item {Bulk reporting}
+      \item {Formulas for grading}
+      \item {Canvas to LADOK with correct dates}
+      \item {Automated grading + reporting}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Late students]
+    \begin{itemize}
+      \item {Discover finished course or components}
+      \item {Grade students from different course rounds}\footnote{%
+          More difficult with locked Canvas rooms.
+        }:
+        \begin{description}
+          \item[Scenario 1] {Get email from student who claims they've 
+            finished but can't see any result in LADOK.}
+
+          \item[Scenario 2] The student took the exam during another round than 
+            what they originally registered for.
+        \end{description}
+
+      \item {It's more work to track students from previous rounds, what 
+        they've finished, bonus points etc.}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{\texttt{ladok3}}
+    \begin{itemize}
+      \item Daniel Bosk, Alexander Baltatzis and Chip Maguire
+      \item Python package and command-line interface for LADOK3
+      \item \url{https://github.com/dbosk/ladok3}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}[\texttt{ladok3} uses]
+    \begin{itemize}
+      \item \mintinline{bash}{ladok report}
+      \item \mintinline{bash}{ladok data}
+
+        \pause
+
+      \item \mintinline{python}{import ladok3}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{DD1301 Computer Introduction, 1.5 credits}
+
+\begin{frame}[fragile]
+  \begingroup
+  \catcode §=\active
+  \def§#1§{\only<1-2>{\alert<2>{#1}}\only<3>{}}
+  \begin{minted}[fontsize=\Large,escapeinside=@@]{bash}
+    canvaslms results -c datintro@§22§@ -A LAB1 | \
+      sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
+      ladok report -f
+  \end{minted}
+  \endgroup
+
+  \begin{example}[Matching]
+    \begin{itemize}
+      \item datintro\alert<2>{22}\only<3>{, datintro21, datintro20, \dots}
+      \item LAB1
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{DD1310 + DD1315 + DD1317 Programming Techniques}
+
+\begin{frame}[fragile]
+  \begin{minted}[fontsize=\Large]{bash}
+    canvaslms results -c prgm22 \
+      -A "LAB[1-3]" | \
+        sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
+          ladok report -f
+  \end{minted}
+
+  \begin{example}[Matching]
+    \begin{itemize}
+      \item prgm22
+      \item LAB1, LAB2, LAB3
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{minted}[fontsize=\Large]{bash}
+    canvaslms results -c prgi22 \
+      -A "(LAB[1-3]|KAL1)" | \
+        sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
+          ladok report -f
+  \end{minted}
+
+  \begin{example}[Matching]
+    \begin{itemize}
+      \item prgi22
+      \item LAB1, LAB2, LAB3, KAL1
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{minted}[fontsize=\Large]{bash}
+    canvaslms results -c "prg[im]" \
+      -A "(LAB[1-3]|KAL1|MAT1)" | \
+        sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
+          ladok report -f
+  \end{minted}
+
+  \begin{example}[Matching]
+    \begin{itemize}
+      \item DD1310 prgm2x: LAB1, LAB2, LAB3
+      \item DD1317 prgi22: LAB1, LAB2, LAB3, KAL1
+      \item DD1315 prgi21: LAB1, LAB2, LAB3, MAT1
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{Formulas for grades}
+
+\begin{frame}[fragile]
+  \begin{question}
+    \begin{itemize}
+      \item How do we know how to merge several assignments into one grade in 
+        LADOK?
+    \end{itemize}
+  \end{question}
+
+  \pause
+  
+  \begin{solution}
+  \begin{minted}[fontsize=\Large]{bash}
+    canvaslms results -h
+    pydoc3 canvaslms.grades
+  \end{minted}
+  \end{solution}
+\end{frame}
+
+\subsection{Across course rounds}
+
+\begin{frame}
+  \begin{example}[Late students]
+    \begin{itemize}
+      \item {Discover finished course or components}
+      \item {Grade students from different course rounds}\footnote{%
+          More difficult with locked Canvas rooms.
+        }:
+        \begin{description}
+          \item[Scenario 1] {Get email from student who claims they've 
+            finished but can't see any result in LADOK.}
+
+          \item[Scenario 2] The student took the exam during another round than 
+            what they originally registered for.
+        \end{description}
+
+      \item {It's more work to track students from previous rounds, 
+        what they've finished, bonus points etc.}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{The cases}
+    \begin{enumerate}
+      \item A student has finished everything related to some LADOK modules, 
+        but not all.
+      \item A student has finished some assignments related to LADOK module X, 
+        but not all.
+    \end{enumerate}
+  \end{block}
+
+  \begin{question}
+    \begin{itemize}
+      \item How do we handle these cases?
+    \end{itemize}
+  \end{question}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{The cases}
+    \begin{enumerate}
+      \item A student has finished everything related to some LADOK modules, 
+        but not all.
+      \item A student has finished some assignments related to LADOK module X, 
+        but not all.
+    \end{enumerate}
+  \end{block}
+
+  \begin{solution}[Case 1]
+    \begin{itemize}
+      \item Our reporting above works.
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{The cases}
+    \begin{enumerate}
+      \item A student has finished everything related to some LADOK modules, 
+        but not all.
+      \item A student has finished some assignments related to LADOK module X, 
+        but not all.
+    \end{enumerate}
+  \end{block}
+
+  \begin{solution}[Case 2]
+    \begin{itemize}
+      \item Within a year: Restlabbar and Lab Week!
+      \item Otherwise
+    \end{itemize}
+    \begin{minted}{bash}
+      canvaslms submissions -c DD1310 -a Lab \
+        -u student@kth.se | \
+          sort -t $'\t' -k 2 > labs-sorted.tsv
+    \end{minted}
+  \end{solution}
+\end{frame}
+
+\begin{frame}
+  \inputminted{text}{labs.tsv}
+\end{frame}
+
+\begin{frame}
+  \inputminted{text}{labs-sorted.tsv}
+\end{frame}
+
+
+\section{Degree projects}
+
+I would like to take 15 minutes to talk about Canvas, the thesis templates      
+(and documentation), oral presentations with active listeners, covers, and      
+the reporting in LADOK and DiVA.                                                
+                                                                                
+The focus is that every degree project leads to an entry in LADOK and those     
+that are successful lead to a thesis and the meta data being put into DiVA.     
+By putting some information into the thesis this reporting can be               
+facilitated. Additionally, by putting some information into the Canvas          
+course room, one can facilitate the entire degree project process, create a     
+customize template for the student (or students), easily create the             
+announcement for the oral presentation, handle reporting of active              
+listening, make a correct cover, produce the meta data for DiVA and the         
+reporting (with titles) into LADOK.
+
+\mode<all>{\includepdf[pages=2-7]{./degree-projects-20221004.pdf}}
+
+
+
+\section[TA management]{TA management: \texttt{nytid}}
+
+- I can also talk about some automation of TA management, some upcoming
+work on recruiting TAs, a TA pool etc. This covers points:
+
+5 gruppbildning
+6 tidsbokning
+15 hitta potentiella TA:er (amanuenser som har gått din kurs)
+16 ta bort studenter som tagit examen från TA-poolen
+
+
+Alexander can also add some things on this topic, how he transferred
+student bookings from Canvas calendar into the queuing system.
+
+\begin{frame}[fragile]\label{WishTA}
+  \begin{example}[Managing TAs]
+    \begin{itemize}
+      \item {Time booking}
+
+      \item {Find potential TAs, the TA pool}
+        \begin{itemize}
+          \item {the TA pool doesn't contain details of which course an 
+            individual is suitable to work on.}
+        \end{itemize}
+
+      \item {Remove students who graduated from the TA pool.}
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{block}{Bonus!}
+    \begin{itemize}
+      \item How Daniel doesn't have to review and sign >70 sheets every month!
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{\texttt{nytid}}
+    \begin{itemize}
+      \item Daniel Bosk
+      \item Python package and \emph{soon} CLI to manage TAs' time
+      \item \url{https://github.com/dbosk/nytid}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}[\texttt{nytid} uses]
+    \begin{itemize}
+      \item TAs sign up for lab sessions.
+      \item Automatically generate time sheets.
+      \item Report new TAs to HR.
+      \item Automatically request amanuensis contracts.
+
+        \pause
+
+      \item CLI \mintinline{bash}{nytid} or
+            Python \mintinline{python}{import nytid}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{Future uses}
+
+\begin{frame}[fragile]
+  \begin{example}[TA pool]
+    \begin{itemize}
+      \item \mintinline{bash}{nytid recommend -c "DD131[0-9]" -u student@kth.se}
+      \item \mintinline{bash}{nytid recruit -c "prgi23"}
+      \item Can use \texttt{ladok3} to filter out graduated students.
+    \end{itemize}
+  \end{example}
+  
+  \pause
+
+  \begin{example}[TA sign up]
+    \begin{itemize}
+      \item \mintinline{bash}{nytid schedule mine --set  https://timeedit...}
+      \item \mintinline{bash}{nytid signup -c "prgi23"}
+      \item \mintinline{bash}{nytid schedule signed --set ~/public_html/TA.ics}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[TA confirmation]
+    \begin{itemize}
+      \item \mintinline{bash}{nytid checkin -c prgi23 --next }
+      \item TimeEdit to automate running check-in.
+      \item Email or Zulip (or Slack) API to send reminders to check in.
+      \item \mintinline{bash}{nytid confirm -c prgi23 --now TA1 TA2 TA3}
+      \item \mintinline{bash}{nytid confirm -c prgi23 --time "2023-09-31 13:15"}
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{example}[Reporting hours]
+    \begin{itemize}
+      \item \mintinline{bash}{nytid report}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\section{Tools and APIs}
+
+\begin{frame}[fragile]
+  \begin{center}
+    \LARGE
+    KTH giveth and KTH taketh away \dots
+  \end{center}
+
+  \begin{remark}
+    \begin{itemize}
+      \item KTH removes lifetime email addresses
+      \item KTH removes personal web pages \alert<+>{(useful for these tools)}
+      \item KTH almost removed (maybe still will) GitHub Enterprise
+      \item KTH removes KTH Social schedule API
+      \item \alert<+>{KTH will introduce MFA, but probably not aligned with our 
+        work}
+      \item \dots
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{Development approach}
+    \begin{itemize}
+      \item Open source
+      \item Independent from institution
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{example}[Advantages]
+    \begin{itemize}
+      \item Teachers at other institutions can use the tools
+      \item More people can participate in maintenance and 
+        development
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[RepoBee]
+    \begin{itemize}
+      \item Developed with talented amanuensis.
+      \item Yielded six (6) papers at ACM CS Ed conferences.
+      \item Most active collaborators at TU Eindhoven, but also other 
+        universities.
+      \item And of course many anonymous users.
+      \item Now self-supporting OSS project.
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{example}[\texttt{ladok3}]
+    \begin{itemize}
+      \item Invited to you to talk about these tools \dots
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[Installation]
+    \begin{itemize}
+      \item \mintinline{bash}{python3 -m pip install canvaslms ladok3 nytid}
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{block}{Development}
+    \begin{itemize}
+      \item \url{https://github.com/dbosk/canvaslms}
+      \item \url{https://github.com/dbosk/ladok3}
+      \item \url{https://github.com/dbosk/nytid}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\subsection{Workshop}
+
+\begin{frame}
+  \begin{block}{Workshop}
+    \begin{itemize}
+      \item Outline what's needed to automate reporting to LADOK.
+      \item Adapt \texttt{ladok3} and particularly \texttt{weblogin} for MIUN.
+      \item Explore how to automate things with Moodle.
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{alertblock}{Workshop preparation}
+    \begin{itemize}
+      \item Read a short PDF:
+        \begin{center}
+          \href{https://github.com/dbosk/weblogin/releases/download/v1.1/weblogin.pdf}{https://github.com/dbosk/weblogin}
+        \end{center}
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \vspace{-2cm}
+  \only<1>{\includegraphics[page=1,width=\textwidth]{figs/weblogin.pdf}}
+  \only<2>{\includegraphics[page=3,width=\textwidth]{figs/weblogin.pdf}}
+\end{frame}
